@@ -6,19 +6,46 @@
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "test:unit": "cross-env NODE_ENV=test jest __tests__/unit",
+        "test:component": "cross-env NODE_ENV=test jest __tests__/component",
+        "test": "npm run test:unit && npm run test:component",
         "preview": "vite preview",
-        "test": "vitest"
+        "vite-test": "vitest"
     },
     "dependencies": {
+        "@reduxjs/toolkit": "^2.0.1",
+        "cross-env": "^7.0.3",
+        "npm": "^10.2.5",
+        "prop-types": "^15.8.1",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-redux": "^9.0.4",
+        "redux": "^5.0.1",
+        "redux-thunk": "^3.1.0"
     },
     "devDependencies": {
-        "@types/react": "^18.0.28",
-        "@types/react-dom": "^18.0.11",
-        "@vitejs/plugin-react": "^3.1.0",
-        "typescript": "^4.9.3",
-        "vite": "^4.2.0",
-        "vitest": "^0.29.7"
+        "@testing-library/dom": "^9.3.4",
+        "@testing-library/jest-dom": "^6.3.0",
+        "@testing-library/react": "^14.1.2",
+        "@testing-library/user-event": "^14.5.2",
+        "@types/jest": "^29.5.11",
+        "@types/react": "^18.2.43",
+        "@types/react-dom": "^18.2.17",
+        "@types/redux-mock-store": "^1.0.6",
+        "@typescript-eslint/eslint-plugin": "^6.14.0",
+        "@typescript-eslint/parser": "^6.14.0",
+        "@vitejs/plugin-react": "^4.2.1",
+        "eslint": "^8.55.0",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.5",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "redux-mock-store": "^1.5.4",
+        "sass": "^1.69.7",
+        "ts-jest": "^29.1.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.2.2",
+        "vite": "^5.0.8"
     }
 }
