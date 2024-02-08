@@ -1,3 +1,8 @@
+/**
+ * Removes instances of four identical consecutive lowercase letters from a string.
+ * @param str The input string from which instances of four identical consecutive lowercase letters will be removed.
+ * @returns A new string with instances of four identical consecutive lowercase letters removed.
+ */
 const removeIdenticalLetters = (str: string): string => {
   // Start with an empty string to store the result
   let result: string = "";
@@ -35,6 +40,11 @@ const removeIdenticalLetters = (str: string): string => {
   return result;
 };
 
+/**
+ * Finds the maximum odd sum by adding the largest number in the array with other numbers in the array.
+ * @param numArr An array of numbers.
+ * @returns The maximum odd sum. If no odd sums are found, the function returns 0.
+ */
 const maximumOddSum = (numArr: number[]): number => {
   // Initialize accumulator to be the smallest possible number. If no odd numbers are found, the funktion should return 0
   const initialValue: number = 0;
@@ -43,7 +53,7 @@ const maximumOddSum = (numArr: number[]): number => {
   const sortedArray: number[] = numArr.sort((a: number, b: number): number => b - a);  
 
   // Use the reduce method to find the largest odd sum
-  return sortedArray.reduce((accumulator, currentValue: number): any => {
+  return sortedArray.reduce((accumulator, currentValue: number): number => {
     // Calculate the sum of the first element in the array and the current element
     const sum: number = sortedArray[0] + currentValue;
     

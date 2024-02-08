@@ -14,6 +14,8 @@ function App() {
   const cardElementsRef: CardElementsRef = {
     cardNumber: useRef<HTMLDivElement>(null),
     cardHolder: useRef<HTMLDivElement>(null),
+    cardMonth: useRef<HTMLDivElement>(null),
+    cardYear: useRef<HTMLDivElement>(null),
     cardDate: useRef<HTMLDivElement>(null),
     cardCvv: useRef<HTMLDivElement>(null),
   };
@@ -47,15 +49,15 @@ function App() {
           focusedElm={focusedElement}
           cardNumberRef={cardElementsRef.cardNumber}
           cardHolderRef={cardElementsRef.cardHolder}
-          cardDateRef={cardElementsRef.cardDate}
+          cardMonthRef={cardElementsRef.cardMonth}
+          cardYearRef={cardElementsRef.cardYear}
+          cardDate={cardElementsRef.cardDate}
           cardCvvRef={cardElementsRef.cardCvv}
         />
-        <div className="form-container">
           <Form
             onCardInputFocus={handleCardInputFocus} 
             onCardInputBlur={handleCardInputBlur}
           />
-        </div>
       </div>
     </div>
   );

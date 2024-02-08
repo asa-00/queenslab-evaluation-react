@@ -1,0 +1,59 @@
+.form-container {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+}
+.form {
+  padding: 60px;
+  .form-input {
+    margin-bottom: 20px;
+    
+    .label {
+      font-size: 15px;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #8ca3bc;
+      display: block;
+      user-select: none;
+      float: left;
+    }
+    .input,
+    .select {
+      width: 100%;
+      height: 50px;
+      border-radius: 10px;
+      box-shadow: none;
+      border: 1px solid #ced6e0;
+      transition: all 0.3s ease-in-out;
+      font-size: 18px;
+      padding: 5px 15px;
+      background: none;
+      color: #1a3b5d;
+    }
+    .form-input-cvv {
+      width: 100%;
+      max-width: 80px;
+      .form-cvv-input {
+        height: 40px !important;
+      }
+    }
+  }
+  .form-input-group {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: 1fr 1fr auto;
+    @media only screen and (max-width: 600px) and (min-width: 300px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  .form-submit-button > button {
+    position: relative;
+    background-color: #194174;
+    color: #fff;
+    width: 100%;
+    border-radius: 10px;
+    height: 50px;
+    font-size: 18px;
+  }
+}
+
