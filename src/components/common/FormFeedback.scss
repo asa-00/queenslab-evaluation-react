@@ -1,0 +1,12 @@
+.form-feedback {
+  color: #cb8505;
+  text-align: left;
+  width: 100%;
+  font-size: 16px;
+  padding: 8px;
+
+  span {
+    content: "\26A0";
+    font-size: 18px;
+  }
+}

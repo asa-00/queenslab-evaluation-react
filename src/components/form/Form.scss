@@ -7,12 +7,11 @@
   padding: 60px;
   .form-input {
     margin-bottom: 20px;
-    
     .label {
       font-size: 15px;
       margin-bottom: 5px;
       font-weight: 500;
-      color: #8ca3bc;
+      color: #606b76;
       display: block;
       user-select: none;
       float: left;
@@ -41,13 +40,12 @@
   .form-input-group {
     display: grid;
     gap: 15px;
-    grid-template-columns: 1fr 1fr auto;
+    grid-template-columns: 150px 150px auto;
     @media only screen and (max-width: 600px) and (min-width: 300px) {
       grid-template-columns: 1fr;
     }
   }
   .form-submit-button > button {
-    position: relative;
     background-color: #194174;
     color: #fff;
     width: 100%;

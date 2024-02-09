@@ -51,6 +51,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
   };
 
   useEffect(() => {
+    // Subscribe to form-submit event
     subscribe('form-submit', (e: Event) => {
       const customEvent = e as CustomEvent;
       setIsSubmitting(customEvent.detail?.isSubmitting)
@@ -61,7 +62,8 @@ const CreditCard: React.FC<CreditCardProps> = ({
     } else {
       setFocused(null);
     }
-    console.log(isSubmitting)
+
+    // Unsubscribe from form-submit event when component unmounts
     return (() => {
       unsubscribe('form-submit', (e: Event) => {
         const customEvent = e as CustomEvent;
@@ -82,8 +84,8 @@ const CreditCard: React.FC<CreditCardProps> = ({
       >
         <div className="card-front">
           <div className="card-img-container">
-            <img className="chip" src={chip} alt="Chip" />
-            <img className="type" src={creditCardLogoByType(creditCardTypeByNumber(cardNumberValue))} alt="Card Type" />
+            <img className="chip" src={chip} alt="Chip" height={50} width={50}/>
+            <img className="type" src={creditCardLogoByType(creditCardTypeByNumber(cardNumberValue))} alt="Card Type" height={35} width={50} />
           </div>
           <div
             data-testid="credit-card-number"
@@ -93,7 +95,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
             <div className={"credit-card-number-label"}>
               {displayCardNumber(cardNumber)}
             </div>
-            {isSubmitting ? <Loader size={60} backdrop />: null}
+            {isSubmitting ? <Loader size={60} backdrop message="Submitting Credit Card Information" />: null}
           </div>
           <div className="card-holder-expiration">
             <div
@@ -126,7 +128,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
             </div>
           </div>
           <div className="typ-img-container">
-            <img className="card-back-type-img" src={creditCardLogoByType(creditCardTypeByNumber(cardNumberValue))} alt="Card Type" />
+            <img className="card-back-type-img" src={creditCardLogoByType(creditCardTypeByNumber(cardNumberValue))} alt="Card Type" height={35} width={50} />
           </div>
         </div>
       </div>

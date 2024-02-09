@@ -21,7 +21,7 @@ describe("Test algorithms", () => {
       });
   });
 
-  describe("test remove identical letters", () => {
+  describe("test find maximum odd sum", () => {
     it("should find the highest possible sum of two numbers, when added together, form an odd number", () => {
       const maximumOddSum1 = maximumOddSum([19, 2, 42, 18]);
       const maximumOddSum2 = maximumOddSum([61, 32, 51]);

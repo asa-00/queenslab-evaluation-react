@@ -1,10 +1,24 @@
 .card {
+  max-width: 400px;
+  height: 230px;
+  margin: auto;
+  perspective: 1000px;
+  transition: 0.3s;
+  border-radius: 10px;
   .focused {
     outline-color: darkgray;
     outline-style: solid;
     outline-width: 1px;
     border-radius: 10px;
-    margin: 0 0 10px 0;
+    padding: 5px;
+    background: linear-gradient(to right, #1b3e7a 20%, #14356d 40%, #1a3c75 50%, #1a3c75 55%, #14356d 70%, #1b3e7a 100%);
+    background-size: 300% auto;
+    animation: shine 3s linear infinite;
+  }
+  @keyframes shine {
+    to {
+      background-position: 200% center;
+    }
   }
   .wavy {
     animation-name: wavy;
@@ -26,39 +40,27 @@
       top: 0px;
     }
   }
-
-  display: flex;
-  max-width: 400px;
-  height: 230px;
-  margin: auto;
-  position: relative;
-  z-index: 2;
-  background-color: transparent;
-  perspective: 1000px;
-  transition: 0.3s;
-  border-radius: 10px;
-
   .card-img-container {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: 50px;
     gap: 0;
     padding: 25px;
-    @media only screen and (max-width: 600px) and (min-width: 300px) {
+    @media only screen and (max-width: 600px) and (min-width: 0px) {
       grid-template-rows: 30px;
     }
     .chip {
       width: 60px;
+      height: auto;
       float: left;
     }
     .type {
       width: 60px;
+      height: auto;
       float: right;
     }
   }
   .card-inner {
-    position: absolute;
-    top: 0;
     padding: 25px 0px;
     width: 100%;
     height: 100%;
@@ -70,14 +72,12 @@
     .card-back {
       position: absolute;
       width: 100%;
-      height: 90%;
+      height: 100%;
       backface-visibility: hidden;
       background-image: url("../../assets/card-bg.jpg");
       box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    }
-    .card-front {
+      max-height: 240px;
       border-radius: 10px;
-      color: black;
     }
     .card-back {
       border-radius: 10px;
@@ -122,7 +122,8 @@
         padding: 25px;
         .card-back-type-img {
           float: right;
-          width: 75px;
+          width: 60px;
+          height: auto;
           opacity: 0.8;
           margin-top: 16px;
           @media screen and (max-width: 480px) {
@@ -147,33 +148,26 @@
       color: #fff;
       font-size: 1.5em;
       letter-spacing: 4px;
-      padding: 5px;
+      @media only screen and (max-width: 375px) and (min-width: 0px) {
+        font-size: 1em;
+      }
     }
   }
   .card-holder-expiration {
     display: flex;
     flex-direction: row;
     gap: 70px;
-    justify-content: center;
-    padding-left: 30px;
-    padding-right: 30px;
-    margin: 16px;
-    @media only screen and (max-width: 600px) and (min-width: 300px) {
-      gap: 0;
-      margin: -11px 0px 0px 25px;
-    }
+    justify-content: space-around;
     .card-holder {
-      display: grid;
-      flex: auto;
-      padding: 5px;
+      display: flex;
+      flex-direction: column;
       text-align: left;
       word-break: break-word;
     }
     .card-expiration {
-      display: grid;
-      flex: auto;
+      display: flex;
+      flex-direction: column;
       text-align: left;
-      padding: 5px;
     }
     .card-holder-label {
       font-weight: 500;
@@ -181,6 +175,9 @@
       font-size: 14px;
       text-transform: capitalize;
       opacity: 0.7;
+      @media only screen and (max-width: 500px) and (min-width: 0px) {
+        font-size: 1em;
+      }
     }
     .card-holder-name {
       font-weight: 500;
@@ -188,6 +185,9 @@
       color: #fff;
       font-size: 18px;
       text-transform: uppercase;
+      @media only screen and (max-width: 500px) and (min-width: 0px) {
+        font-size: 1em;
+      }
     }
     .card-expiration-label {
       font-weight: 500;
@@ -195,6 +195,9 @@
       font-size: 14px;
       text-transform: capitalize;
       opacity: 0.7;
+      @media only screen and (max-width: 500px) and (min-width: 0px) {
+        font-size: 1em;
+      }
     }
     .card-expiration-date {
       font-weight: 500;
@@ -202,6 +205,9 @@
       color: #fff;
       font-size: 18px;
       text-transform: uppercase;
+      @media only screen and (max-width: 500px) and (min-width: 0px) {
+        font-size: 1em;
+      }
     }
     .card-holder-wrapper {
       z-index: 3;
@@ -215,15 +221,9 @@
       border: 2px solid rgba(255, 255, 255, 0.65);
     }
   }
-  .loader-container {
-    position: absolute;
-    top: 120px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  @media only screen and (max-width: 600px) and (min-width: 300px) {
+  @media only screen and (max-width: 600px) and (min-width: 0px) {
     background-color: #fff;
-    font-size: 0.8em;
-    height: 200px;
+    font-size: 1em;
+
   }
 }

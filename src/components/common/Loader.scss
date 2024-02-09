@@ -1,0 +1,41 @@
+.loader-container {
+  position: relative;
+  margin: 8px auto;
+  width: 100%;
+}
+.loader {
+  width: 30px;
+  height: 30px;
+  border: 5px solid #fff;
+  border-bottom-color: #194174;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader-message {
+  font-weight: 500;
+    letter-spacing: 1px;
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 16px;
+}
+.lodader-backdrop {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  background: rgb(25, 65, 116, .9);
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  z-index: 10;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

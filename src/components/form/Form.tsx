@@ -76,7 +76,7 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
 
   return (
     <div className="form-container">
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)} aria-label="Credit Card Form">
         <div className="form-input">
           <label
             htmlFor="cardNumberLabel"
@@ -95,14 +95,16 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
             onBlur={onCardInputBlur}
             onFocus={onCardInputFocus}
             maxLength={19}
+            placeholder="Enter card number"
+            aria-describedby="cardNumberError"
           />
           {errors.cardNumber && (
-            <FormFeedback message={errors.cardNumber.message} />
+            <FormFeedback message={errors.cardNumber.message} id="cardNumberError" />
           )}
         </div>
         <div className="form-input">
           <label htmlFor="cardNameLabel" className="form-name-label label">
-            Card Name
+            Card Holder Name
           </label>
           <input
             className="form-card-holder-input input"
@@ -114,9 +116,11 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
             data-testid="form-card-holder-input"
             onBlur={onCardInputBlur}
             onFocus={onCardInputFocus}
+            placeholder="Enter card holder name"
+            aria-describedby="cardHolderError"
           />
           {errors.cardHolder && (
-            <FormFeedback message={errors.cardHolder.message} />
+            <FormFeedback message={errors.cardHolder.message} id="cardHolderError" />
           )}
         </div>
         <div className="form-input">
@@ -129,14 +133,17 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
                 Expiration
               </label>
               <select
+                id="card-month"
+                aria-label="Card Month"
                 className="card-mounth-select select"
+                aria-describedby="cardMonthError"
                 {...register("cardMonth", {
                   onChange: handleChange,
                 })}
                 onBlur={onCardInputBlur}
                 onFocus={onCardInputFocus}
               >
-                <option value="">Month</option>
+                <option value="">Select month</option>
                 {months.map((value) => (
                   <option key={value} value={value}>
                     {value}
@@ -144,7 +151,7 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
                 ))}
               </select>
               {errors.cardMonth && (
-                <FormFeedback message={errors.cardMonth.message} />
+                <FormFeedback message={errors.cardMonth.message} id="cardMonthError" />
               )}
             </div>
             <div className="form-input-date-year">
@@ -155,14 +162,17 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
                 &nbsp;
               </label>
               <select
+                id="card-year"
+                aria-label="Card Year"
                 className="card-year-select select"
+                aria-describedby="cardYearError"
                 {...register("cardYear", {
                   onChange: handleChange,
                 })}
                 onBlur={onCardInputBlur}
                 onFocus={onCardInputFocus}
               >
-                <option value="">Year</option>
+                <option value="">Select year</option>
                 {years.map((value) => (
                   <option key={value} value={value}>
                     {value}
@@ -170,7 +180,7 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
                 ))}
               </select>
               {errors.cardYear && (
-                <FormFeedback message={errors.cardYear.message} />
+                <FormFeedback message={errors.cardYear.message} id="cardYearError" />
               )}
             </div>
             <div className="form-input-cvv">
@@ -187,19 +197,23 @@ const Form: React.FC<FormProps> = ({ onCardInputFocus, onCardInputBlur }) => {
                 onBlur={onCardInputBlur}
                 onFocus={onCardInputFocus}
                 maxLength={4}
+                placeholder="Enter cvv"
+                aria-describedby="cardCvvError"
               />
+              <div>
               {errors.cardCvv && (
-                <FormFeedback message={errors.cardCvv.message} />
+                <FormFeedback message={errors.cardCvv.message} id="cardCvvError" />
               )}
+              </div>
             </div>
           </div>
         </div>
         <div className="form-submit-button">
           <button disabled={isSubmitting} type="submit">
-            {isSubmitting ? <Loader size={30} backdrop={undefined} /> : "Submit"}
+            {isSubmitting ? <Loader size={30} backdrop={undefined} message="" /> : "Submit"}
           </button>
         </div>
-        {errors.root && <FormFeedback message={errors.root.message} />}
+        {errors.root && <FormFeedback message={errors.root.message} id="rootError" />}
       </form>
     </div>
   );
