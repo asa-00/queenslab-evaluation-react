@@ -47,7 +47,7 @@ describe("Test utils", () => {
       expect(expectedResult).toEqual("5555 5555 5555 5555");
     });
   });
-  describe("display credit card type by bumber", () => {
+  describe("display credit card type by number", () => {
     test("should identify Visa card type", () => {
       const visaNumbers = ["4111111111111111", "4916111111111111"];
       visaNumbers.forEach((number) => {

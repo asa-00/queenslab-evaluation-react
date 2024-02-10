@@ -11,7 +11,7 @@ export const creditCardSchema = z.object({
     .regex(creditCardPattern, "Enter a valid credit card number."),
   cardHolder: z
     .string()
-    .regex(/^[a-zA-Z ]+$/, "Enter a valid name.")
+    .regex(/^[a-zA-Z ]+$/, "Card holder name is required")
     .min(3, { message: "Holder name is required and must be atleast 3 charecters long" })
     .max(16, { message: "Holder name is required and must be less than 16 charecters long" }),
   cardMonth: z.string().regex(/\d{2}/, "Expiration month is required"),

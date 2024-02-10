@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../store/store";
-import { creditCardLogoByType, creditCardTypeByNumber } from "../../utils/utils";
+import {
+  creditCardLogoByType,
+  creditCardTypeByNumber,
+} from "../../utils/utils";
 import "./CreditCard.scss";
 import chip from "../../assets/chip.png";
-import { subscribe, unsubscribe } from "../../utils/events";
+/* import { subscribe, unsubscribe } from "../../utils/events"; */
 import Loader from "../common/Loader";
+import { Card } from "../../store/redux/features/cardSlice";
+import Alert from "../common/Alert";
 
 interface CreditCardProps {
   cardNumberRef: React.RefObject<HTMLDivElement>;
@@ -15,6 +20,8 @@ interface CreditCardProps {
   cardCvvRef: React.RefObject<HTMLDivElement>;
   focusedElm: React.RefObject<HTMLElement> | null;
   isFlipped: boolean;
+  isSubmitting: boolean;
+  error: string | undefined
 }
 
 const CreditCard: React.FC<CreditCardProps> = ({
@@ -25,11 +32,19 @@ const CreditCard: React.FC<CreditCardProps> = ({
   cardCvvRef,
   focusedElm,
   isFlipped,
+  isSubmitting,
+  error,
 }) => {
-  const card = useAppSelector((state) => state.card);
-  const { cardNumber, cardHolder, cardMonth, cardYear, cardCvv, cardNumberValue } = card;
+  const card: Card = useAppSelector((state) => state.card);
+  const {
+    cardNumber,
+    cardHolder,
+    cardMonth,
+    cardYear,
+    cardCvv,
+    cardNumberValue,
+  } = card;
   const [focused, setFocused] = useState<HTMLElement | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const currentlyFocused = (ref: React.RefObject<HTMLElement>): string => {
     if (ref?.current && focused) {
@@ -42,7 +57,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
     return (
       <div id="credit-card-number-characters">
         {cardNumber.split("").map((char, i) => (
-          <span className="character" key={`${char}-${i+1}`}>
+          <span className="character" key={`${char}-${i + 1}`}>
             {char}
           </span>
         ))}
@@ -51,27 +66,15 @@ const CreditCard: React.FC<CreditCardProps> = ({
   };
 
   useEffect(() => {
-    // Subscribe to form-submit event
-    subscribe('form-submit', (e: Event) => {
-      const customEvent = e as CustomEvent;
-      setIsSubmitting(customEvent.detail?.isSubmitting)
-    })
-
     if (focusedElm?.current) {
       setFocused(focusedElm.current);
     } else {
       setFocused(null);
     }
-
-    // Unsubscribe from form-submit event when component unmounts
-    return (() => {
-      unsubscribe('form-submit', (e: Event) => {
-        const customEvent = e as CustomEvent;
-        setIsSubmitting(customEvent.detail?.isSubmitting)
-      });
-    })
   }, [focusedElm, cardNumber, isSubmitting]);
-  
+
+  const cardDateRef = cardMonthRef || cardYearRef
+
   return (
     <div className="card">
       <div
@@ -82,10 +85,24 @@ const CreditCard: React.FC<CreditCardProps> = ({
             : { transform: "rotateY(0deg)" }
         }
       >
-        <div className="card-front">
+        <div className="card-front" data-testid="credit-card-front">
           <div className="card-img-container">
-            <img className="chip" src={chip} alt="Chip" height={50} width={50}/>
-            <img className="type" src={creditCardLogoByType(creditCardTypeByNumber(cardNumberValue))} alt="Card Type" height={35} width={50} />
+            <img
+              className="chip"
+              src={chip}
+              alt="Chip"
+              height={50}
+              width={50}
+            />
+            <img
+              className="type"
+              src={creditCardLogoByType(
+                creditCardTypeByNumber(cardNumberValue)
+              )}
+              alt="Card Type"
+              height={35}
+              width={50}
+            />
           </div>
           <div
             data-testid="credit-card-number"
@@ -95,7 +112,14 @@ const CreditCard: React.FC<CreditCardProps> = ({
             <div className={"credit-card-number-label"}>
               {displayCardNumber(cardNumber)}
             </div>
-            {isSubmitting ? <Loader size={60} backdrop message="Submitting Credit Card Information" />: null}
+            <Alert size={30} message={error} backdrop />
+            {isSubmitting ? (
+              <Loader
+                size={60}
+                backdrop
+                message="Submitting Credit Card Information"
+              />
+            ) : null}
           </div>
           <div className="card-holder-expiration">
             <div
@@ -107,10 +131,8 @@ const CreditCard: React.FC<CreditCardProps> = ({
               <span className="card-holder-name">{cardHolder}</span>
             </div>
             <div
-              className={`card-expiration ${currentlyFocused(
-                cardMonthRef.current ? cardMonthRef : cardYearRef
-              )}`}
-              ref={cardMonthRef || cardYearRef}
+              className={`card-expiration ${currentlyFocused(cardDateRef)}`}
+              ref={cardDateRef}
             >
               <span className="card-expiration-label">Expires</span>
               <span className="card-expiration-date">{`${cardMonth}/${cardYear}`}</span>
@@ -128,7 +150,15 @@ const CreditCard: React.FC<CreditCardProps> = ({
             </div>
           </div>
           <div className="typ-img-container">
-            <img className="card-back-type-img" src={creditCardLogoByType(creditCardTypeByNumber(cardNumberValue))} alt="Card Type" height={35} width={50} />
+            <img
+              className="card-back-type-img"
+              src={creditCardLogoByType(
+                creditCardTypeByNumber(cardNumberValue)
+              )}
+              alt="Card Type"
+              height={35}
+              width={50}
+            />
           </div>
         </div>
       </div>

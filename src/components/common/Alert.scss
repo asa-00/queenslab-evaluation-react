@@ -1,0 +1,50 @@
+.alert-container {
+  position: relative;
+  margin: -25px auto;
+  width: 100%;
+  animation: ease-in-out 1s linear;
+  display: flex;
+}
+.alert-icon {
+  font-weight: 500;
+  font-size: 40px;
+  color: #cb0505;
+  width: 100%;
+  display: grid;
+}
+.alert-message {
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #cb0505;
+  font-size: 16px;
+  text-transform: uppercase;
+  padding: 0 16px 0 16px;
+}
+.close-button {
+  color: rgb(25 65 116);
+  font-size: 20px;
+  position: relative;
+  top: -25px;
+  right: 20px;
+  float: right;
+  cursor: pointer;
+}
+.alert-backdrop {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  background: rgb(243, 201, 201, 0.96);
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  z-index: 10;
+  border: 1px solid red;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

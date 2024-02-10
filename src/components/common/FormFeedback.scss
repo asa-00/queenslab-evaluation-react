@@ -1,12 +1,31 @@
 .form-feedback {
-  color: #cb8505;
   text-align: left;
   width: 100%;
   font-size: 16px;
   padding: 8px;
 
-  span {
+  .icon-info {
     content: "\26A0";
     font-size: 18px;
+    color: #057ccb;
+  }
+  .icon-warning {
+    content: "\26A0";
+    font-size: 18px;
+    color: #cb8505;
+  }
+  .icon-error {
+    content: "\26A0";
+    font-size: 18px;
+    color: #cb0505;
+  }
+  .message-warning {
+    color: #cb8505;
+  }
+  .message-error {
+    color: #cb0505;
+  }
+  .message-info {
+    color: #057ccb;
   }
 }

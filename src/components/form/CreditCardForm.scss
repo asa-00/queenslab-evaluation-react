@@ -16,31 +16,40 @@
       user-select: none;
       float: left;
     }
-    .input,
-    .select {
-      width: 100%;
-      height: 50px;
-      border-radius: 10px;
-      box-shadow: none;
-      border: 1px solid #ced6e0;
-      transition: all 0.3s ease-in-out;
-      font-size: 18px;
-      padding: 5px 15px;
-      background: none;
-      color: #1a3b5d;
+    .input {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: none;
+    border: 1px solid #ced6e0;
+    transition: all 0.3s ease-in-out;
+    font-size: 20px;
+    padding: 5px 15px;
+    background: none;
+    color: #1a3b5d;
     }
-    .form-input-cvv {
-      width: 100%;
-      max-width: 80px;
-      .form-cvv-input {
-        height: 40px !important;
-      }
-    }
+
+  }
+  .select {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    box-shadow: none;
+    border: 1px solid #ced6e0;
+    transition: all 0.3s ease-in-out;
+    font-size: 20px;
+    padding: 5px 15px;
+    background: none;
+    color: #1a3b5d;
+  }
+  .form-input-cvv {
+    width: 100%;
+    max-width: 100px;
   }
   .form-input-group {
     display: grid;
     gap: 15px;
-    grid-template-columns: 150px 150px auto;
+    grid-template-columns: 1fr 1fr;
     @media only screen and (max-width: 600px) and (min-width: 300px) {
       grid-template-columns: 1fr;
     }
