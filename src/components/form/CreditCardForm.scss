@@ -61,6 +61,11 @@
     border-radius: 10px;
     height: 50px;
     font-size: 18px;
+    border: none;
+    cursor: pointer;
+  }
+  .form-submit-button > button:hover {
+    filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
   }
 }
 

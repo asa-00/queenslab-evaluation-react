@@ -8,26 +8,31 @@
 .alert-icon {
   font-weight: 500;
   font-size: 40px;
-  color: #cb0505;
+  color: #a30404;
   width: 100%;
   display: grid;
+  filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.4));
 }
 .alert-message {
   font-weight: 500;
   letter-spacing: 1px;
-  color: #cb0505;
+  color: #a30404;
   font-size: 16px;
   text-transform: uppercase;
   padding: 0 16px 0 16px;
 }
 .close-button {
   color: rgb(25 65 116);
-  font-size: 20px;
+  font-size: 12px;
   position: relative;
   top: -25px;
   right: 20px;
   float: right;
   cursor: pointer;
+  text-transform: uppercase;
+}
+.close-button:hover {
+  filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
 }
 .alert-backdrop {
   position: absolute;

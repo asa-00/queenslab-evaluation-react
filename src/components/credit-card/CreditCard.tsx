@@ -115,7 +115,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
             <Alert size={30} message={error} backdrop />
             {isSubmitting ? (
               <Loader
-                size={60}
+                size={40}
                 backdrop
                 message="Submitting Credit Card Information"
               />

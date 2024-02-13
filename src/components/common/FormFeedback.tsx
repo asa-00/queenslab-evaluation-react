@@ -10,7 +10,7 @@ interface FormFeedbackProps {
 const FormFeedback: FC<FormFeedbackProps> = ({ message, id, type }) => {
   if (message) {
     return (
-      <div id={id} className="form-feedback">
+      <div id={id} className="form-feedback" data-testid={`form-feedback-${id}`}>
         {type === "warning" && <span className="icon-warning">&#9888; </span>}
         {type === "error" && <span className="icon-error">&#10539; </span>}
         <span className={`message-${type}`}>{message ?? ""}</span>

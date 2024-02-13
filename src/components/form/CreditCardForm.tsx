@@ -35,6 +35,13 @@ const CreditCardForm: React.FC = () => {
   } = useForm<Card>({
     resolver: zodResolver(creditCardSchema),
     mode: "onBlur",
+      defaultValues: {
+        cardNumber: "",
+        cardHolder: "",
+        cardMonth: "",
+        cardYear: "",
+        cardCvv: ""
+    }
   });
   const [focusedElement, setFocusedElement] =
     useState<React.RefObject<HTMLElement> | null>(null);
@@ -94,7 +101,7 @@ const CreditCardForm: React.FC = () => {
     try {
       // To simulate async api call to server
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      // throw new Error("Api Error");
+      throw new Error("Api Error");
 
       if (data) {
         dispatch(addCard(initialState));
@@ -102,7 +109,7 @@ const CreditCardForm: React.FC = () => {
       }
     } catch (error: unknown) {
       setError("root", {
-        message: `There was a error precessing your request. Try again [${error}]`,
+        message: `There was an error precessing your request. Try again [${error}]`,
       });
     }
   };
@@ -165,20 +172,21 @@ const CreditCardForm: React.FC = () => {
               {...register("cardNumber", {
                 onChange: handleChange,
                 required: true,
+                value: getValues("cardNumber")
               })}
-              value={getValues("cardNumber")}
+        
               type="text"
               data-testid="card-number-input"
               onBlur={handleCardInputBlur}
               onFocus={handleCardInputFocus}
               maxLength={19}
               placeholder="Enter card number"
-              aria-describedby="cardNumberError"
+              aria-describedby="card-number-error"
             />
             {errors.cardNumber && (
               <FormFeedback
                 message={errors.cardNumber.message}
-                id="cardNumberError"
+                id="card-number-error"
                 type="warning"
               />
             )}
@@ -198,12 +206,12 @@ const CreditCardForm: React.FC = () => {
               onBlur={handleCardInputBlur}
               onFocus={handleCardInputFocus}
               placeholder="Enter card holder name"
-              aria-describedby="cardHolderError"
+              aria-describedby="card-holder-error"
             />
             {errors.cardHolder && (
               <FormFeedback
                 message={errors.cardHolder.message}
-                id="cardHolderError"
+                id="card-holder-error"
                 type="warning"
               />
             )}
@@ -221,7 +229,7 @@ const CreditCardForm: React.FC = () => {
                   id="card-month"
                   aria-label="Card Month"
                   className="card-mounth-select select"
-                  aria-describedby="cardMonthError"
+                  aria-describedby="card-month-error"
                   {...register("cardMonth", {
                     onChange: handleChange,
                   })}
@@ -238,7 +246,7 @@ const CreditCardForm: React.FC = () => {
                 {errors.cardMonth && (
                   <FormFeedback
                     message={errors.cardMonth.message}
-                    id="cardMonthError"
+                    id="card-month-error"
                     type="warning"
                   />
                 )}
@@ -254,7 +262,7 @@ const CreditCardForm: React.FC = () => {
                   id="card-year"
                   aria-label="Card Year"
                   className="card-year-select select"
-                  aria-describedby="cardYearError"
+                  aria-describedby="card-year-error"
                   {...register("cardYear", {
                     onChange: handleChange,
                   })}
@@ -271,7 +279,7 @@ const CreditCardForm: React.FC = () => {
                 {errors.cardYear && (
                   <FormFeedback
                     message={errors.cardYear.message}
-                    id="cardYearError"
+                    id="card-year-error"
                     type="warning"
                   />
                 )}
@@ -291,12 +299,12 @@ const CreditCardForm: React.FC = () => {
                   onFocus={handleCardInputFocus}
                   maxLength={4}
                   placeholder="Enter CVV"
-                  aria-describedby="cardCvvError"
+                  aria-describedby="card-cvv-error"
                 />
                 {errors.cardCvv && (
                   <FormFeedback
                     message={errors.cardCvv.message}
-                    id="cardCvvError"
+                    id="card-cvv-error"
                     type="warning"
                   />
                 )}
@@ -304,7 +312,7 @@ const CreditCardForm: React.FC = () => {
             </div>
           </div>
           <div className="form-submit-button">
-            <button disabled={isSubmitting} type="submit">
+            <button disabled={isSubmitting} type="submit" data-testid="form-submit-button">
               {isSubmitting ? (
                 <Loader size={30} backdrop={undefined} message="" />
               ) : (
@@ -315,7 +323,7 @@ const CreditCardForm: React.FC = () => {
           {errors.root && (
             <FormFeedback
               message={errors.root.message}
-              id="rootError"
+              id="root-error"
               type="error"
             />
           )}
