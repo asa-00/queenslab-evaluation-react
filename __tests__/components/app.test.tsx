@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 import App from "../../src/App";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import React from "react";
 
 const mockStore = configureStore([]);
 const store = mockStore({
@@ -113,5 +114,21 @@ describe("App component", () => {
         screen.getByTestId("form-feedback-card-number-error")
       ).toBeInTheDocument();
     });
+  });
+
+  it("handles credit card number submit error", () => {
+    const { cardNumberInput, cardHolderInput } = setup();
+    expect(cardNumberInput.value).toBe("");
+
+    fireEvent.change(cardNumberInput, {
+      target: { value: "5555555555555555" },
+    });
+    expect(cardNumberInput.value).toBe("5555555555555555");
+
+    fireEvent.change(cardHolderInput, {
+      target: { value: "John Doe" },
+    });
+    expect(cardNumberInput.value).toBe("John Doe");
+
   });
 });
