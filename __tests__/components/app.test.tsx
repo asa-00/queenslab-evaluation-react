@@ -9,7 +9,6 @@ import userEvent from "@testing-library/user-event";
 import App from "../../src/App";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
-import React from "react";
 
 const mockStore = configureStore([]);
 const store = mockStore({
@@ -33,10 +32,12 @@ const setup = () => {
   const cardNumberInput =
     screen.getByTestId<HTMLInputElement>("card-number-input");
   const cardNumber = screen.getByTestId("credit-card-number");
-  const cardHolderInput = screen.getByTestId("form-card-holder-input");
-  const cardHolder = screen.getByTestId("card-holder");
-  const cvvInput = screen.getByTestId("form-cvv-input");
-  const formSubmitButton = screen.getByTestId("form-submit-button");
+  const cardHolderInput = screen.getByTestId<HTMLInputElement>("form-card-holder-input");
+  const cardHolder = screen.getByTestId<HTMLInputElement>("card-holder");
+  const cvvInput = screen.getByTestId<HTMLInputElement>("form-cvv-input");
+  const monthSelect = screen.getByTestId('form-card-month-select') as HTMLSelectElement;
+  const yearSelect = screen.getByTestId('form-card-year-select') as HTMLSelectElement;
+  const formSubmitButton = screen.getByTestId<HTMLInputElement>("form-submit-button");
 
   return {
     cardNumberInput,
@@ -44,6 +45,8 @@ const setup = () => {
     cardHolderInput,
     cardHolder,
     cvvInput,
+    monthSelect,
+    yearSelect,
     formSubmitButton,
     ...utils,
   };
@@ -116,19 +119,35 @@ describe("App component", () => {
     });
   });
 
-  it("handles credit card number submit error", () => {
-    const { cardNumberInput, cardHolderInput } = setup();
-    expect(cardNumberInput.value).toBe("");
-
+  it("handles form submit", async () => {
+    const { cardNumberInput, cardHolderInput, monthSelect, yearSelect, cvvInput, formSubmitButton } = setup();
+    
     fireEvent.change(cardNumberInput, {
       target: { value: "5555555555555555" },
     });
-    expect(cardNumberInput.value).toBe("5555555555555555");
-
+    
     fireEvent.change(cardHolderInput, {
       target: { value: "John Doe" },
     });
-    expect(cardNumberInput.value).toBe("John Doe");
+    
+    fireEvent.change(monthSelect, {
+      target: { value: 2 },
+    });
 
+    fireEvent.change(cvvInput, {
+      target: { value: "555" },
+    });
+
+    userEvent.selectOptions(monthSelect, "01");
+    userEvent.selectOptions(yearSelect, "2024");
+  
+    expect(cardNumberInput.value).toBe("5555555555555555");
+    expect(cardHolderInput.value).toBe("John Doe");
+    await waitFor(() => { expect(monthSelect.value).toBe('01');});
+    await waitFor(() => { expect(yearSelect.value).toBe('2024');});
+    expect(cvvInput.value).toBe("555");
+
+    userEvent.click(formSubmitButton);
+    await waitFor(() => expect(cardNumberInput.value).toBe(""), { timeout: 2000 });
   });
 });

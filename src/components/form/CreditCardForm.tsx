@@ -100,8 +100,8 @@ const CreditCardForm: React.FC = () => {
     setError("root", {});
     try {
       // To simulate async api call to server
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      throw new Error("Api Error");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // throw new Error("Api Error");
 
       if (data) {
         dispatch(addCard(initialState));
@@ -227,6 +227,7 @@ const CreditCardForm: React.FC = () => {
                 </label>
                 <select
                   id="card-month"
+                  data-testid="form-card-month-select"
                   aria-label="Card Month"
                   className="card-mounth-select select"
                   aria-describedby="card-month-error"
@@ -260,6 +261,7 @@ const CreditCardForm: React.FC = () => {
                 </label>
                 <select
                   id="card-year"
+                  data-testid="form-card-year-select"
                   aria-label="Card Year"
                   className="card-year-select select"
                   aria-describedby="card-year-error"
