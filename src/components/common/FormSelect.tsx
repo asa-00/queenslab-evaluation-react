@@ -9,15 +9,14 @@ import {
   } from "react-hook-form";
 
 import { ErrorMessage } from "@hookform/error-message";
-import FormFeedback from "../common/FormFeedback";
+import FormFeedback from "./FormFeedback";
 import { Card } from "../../store/redux/features/cardSlice";
-import { Months, Years } from "./constants";
 
 type SelectProps<Card extends Record<never, never>> = {
   id: string;
   name: string;
   label: string;
-  options: Months | Years;
+  options: string[];
   className?: string;
   register?: UseFormRegister<Card>;
   rules?: RegisterOptions;

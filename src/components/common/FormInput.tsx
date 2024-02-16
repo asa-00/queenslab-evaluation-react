@@ -11,7 +11,7 @@ import {
 } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import FormFeedback from "../common/FormFeedback";
-import { Card } from "./validationSchema";
+import { Card } from "../../store/redux/features/cardSlice";
 
 type InputType = "text" | "number";
 

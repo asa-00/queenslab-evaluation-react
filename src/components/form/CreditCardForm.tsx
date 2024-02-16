@@ -15,8 +15,8 @@ import FormFeedback from "../common/FormFeedback";
 import Loader from "../common/Loader";
 import CreditCard from "../credit-card/CreditCard";
 import { subscribe, unsubscribe } from "../../utils/events";
-import { FormInput } from "./FormInput";
-import FormSelect from "./FormSelect";
+import { FormInput } from "../common/FormInput";
+import FormSelect from "../common/FormSelect";
 
 interface CardElementsRef {
   [key: string]: React.RefObject<HTMLDivElement>;
@@ -27,7 +27,7 @@ type FormProps = {
   isLoading: boolean
 }
 
-const CreditCardForm: React.FC = ({ isApiError, isLoading }: FormProps) => {
+const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
   const dispatch = useAppDispatch();
   const card: Card = useAppSelector((state) => state.card);
   const initialCreditCardNumber: string = "################";
@@ -134,7 +134,7 @@ const CreditCardForm: React.FC = ({ isApiError, isLoading }: FormProps) => {
   useEffect(() => {
     removeCreditCardNumberAnimation();
     subscribe("close-alert", () => setError("root", {}));
-
+    console.log(isApiError, isLoading)
     return () => {
       unsubscribe("close-alert", () => setError("root", {}));
     };
@@ -165,7 +165,7 @@ const CreditCardForm: React.FC = ({ isApiError, isLoading }: FormProps) => {
           onSubmit={handleSubmit(onSubmit)}
           aria-label="Credit Card Form"
         >
-          <FormInput<Card>
+          <FormInput
             id="form-card-number-input"
             label="Card Number"
             className="card-number-input"
@@ -178,7 +178,7 @@ const CreditCardForm: React.FC = ({ isApiError, isLoading }: FormProps) => {
             placeholder="Enter card number"
             errors={errors}
           />
-          <FormInput<Card>
+          <FormInput
             id="form-card-holder-input"
             label="Card Holder Name"
             className="card-holder-input"
@@ -224,7 +224,7 @@ const CreditCardForm: React.FC = ({ isApiError, isLoading }: FormProps) => {
                 />
               </div>
               <div className="form-input-cvv">
-                <FormInput<Card>
+                <FormInput
                   id="form-cvv-input"
                   label="CVV"
                   className="cvv-input"
