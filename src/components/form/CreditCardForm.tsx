@@ -15,12 +15,19 @@ import FormFeedback from "../common/FormFeedback";
 import Loader from "../common/Loader";
 import CreditCard from "../credit-card/CreditCard";
 import { subscribe, unsubscribe } from "../../utils/events";
+import { FormInput } from "./FormInput";
+import FormSelect from "./FormSelect";
 
 interface CardElementsRef {
   [key: string]: React.RefObject<HTMLDivElement>;
 }
 
-const CreditCardForm: React.FC = () => {
+type FormProps = {
+  isApiError: boolean,
+  isLoading: boolean
+}
+
+const CreditCardForm: React.FC = ({ isApiError, isLoading }: FormProps) => {
   const dispatch = useAppDispatch();
   const card: Card = useAppSelector((state) => state.card);
   const initialCreditCardNumber: string = "################";
@@ -30,22 +37,20 @@ const CreditCardForm: React.FC = () => {
     setFocus,
     setError,
     reset,
-    getValues,
     formState: { errors, isSubmitting },
   } = useForm<Card>({
     resolver: zodResolver(creditCardSchema),
     mode: "onBlur",
-      defaultValues: {
-        cardNumber: "",
-        cardHolder: "",
-        cardMonth: "",
-        cardYear: "",
-        cardCvv: ""
-    }
+    defaultValues: {
+      cardNumber: "",
+      cardHolder: "",
+      cardMonth: "",
+      cardYear: "",
+      cardCvv: "",
+    },
   });
   const [focusedElement, setFocusedElement] =
     useState<React.RefObject<HTMLElement> | null>(null);
-  const [focusedInputName, setFocusedInputName] = useState<string>("");
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
 
   const cardElementsRef: CardElementsRef = {
@@ -64,7 +69,6 @@ const CreditCardForm: React.FC = () => {
   }): void => {
     const { name } = target as HTMLInputElement;
     const refByName = cardElementsRef[name];
-    setFocusedInputName(name);
     if (name === "cardCvv") {
       setIsFlipped(true);
       setFocusedElement(refByName);
@@ -74,7 +78,7 @@ const CreditCardForm: React.FC = () => {
     setFocusedElement(refByName);
   };
 
-  const handleCardInputBlur = useCallback((): void => {
+  const handleCardInputBlur = useCallback(() => {
     setFocusedElement(null);
     setIsFlipped(false);
   }, []);
@@ -101,9 +105,13 @@ const CreditCardForm: React.FC = () => {
     try {
       // To simulate async api call to server
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      // throw new Error("Api Error");
-
+      console.log(isApiError)
+      if(isApiError) {
+        throw new Error("Api Error");
+      }
+      
       if (data) {
+        // Send the data to the server, reset the global state and form
         dispatch(addCard(initialState));
         reset();
       }
@@ -130,21 +138,18 @@ const CreditCardForm: React.FC = () => {
     return () => {
       unsubscribe("close-alert", () => setError("root", {}));
     };
-  }, [
-    card,
-    setFocus,
-    errors,
-    isSubmitting,
-    focusedInputName,
-    getValues,
-    setError,
-  ]);
+  }, [card, setFocus, errors, isSubmitting, setError, isApiError, isLoading]);
+
+  const rules = {
+    onChange: handleChange,
+    required: true,
+  };
 
   return (
     <div className="credit-card-container">
       <CreditCard
         isFlipped={isFlipped}
-        isSubmitting={isSubmitting}
+        isSubmitting={isSubmitting || isLoading}
         focusedElm={focusedElement}
         cardNumberRef={cardElementsRef.cardNumber}
         cardHolderRef={cardElementsRef.cardHolder}
@@ -160,162 +165,88 @@ const CreditCardForm: React.FC = () => {
           onSubmit={handleSubmit(onSubmit)}
           aria-label="Credit Card Form"
         >
-          <div className="form-input">
-            <label
-              htmlFor="cardNumberLabel"
-              className="input-cardnumber-label label"
-            >
-              Card Number
-            </label>
-            <input
-              className="card-number-input input"
-              {...register("cardNumber", {
-                onChange: handleChange,
-                required: true,
-                value: getValues("cardNumber")
-              })}
-        
-              type="text"
-              data-testid="card-number-input"
-              onBlur={handleCardInputBlur}
-              onFocus={handleCardInputFocus}
-              maxLength={19}
-              placeholder="Enter card number"
-              aria-describedby="card-number-error"
-            />
-            {errors.cardNumber && (
-              <FormFeedback
-                message={errors.cardNumber.message}
-                id="card-number-error"
-                type="warning"
-              />
-            )}
-          </div>
-          <div className="form-input">
-            <label htmlFor="cardNameLabel" className="form-name-label label">
-              Card Holder Name
-            </label>
-            <input
-              className="form-card-holder-input input"
-              {...register("cardHolder", {
-                onChange: handleChange,
-                required: true,
-              })}
-              type="text"
-              data-testid="form-card-holder-input"
-              onBlur={handleCardInputBlur}
-              onFocus={handleCardInputFocus}
-              placeholder="Enter card holder name"
-              aria-describedby="card-holder-error"
-            />
-            {errors.cardHolder && (
-              <FormFeedback
-                message={errors.cardHolder.message}
-                id="card-holder-error"
-                type="warning"
-              />
-            )}
-          </div>
+          <FormInput<Card>
+            id="form-card-number-input"
+            label="Card Number"
+            className="card-number-input"
+            register={register}
+            rules={rules}
+            {...register("cardNumber")}
+            type="text"
+            onBlur={handleCardInputBlur}
+            onFocus={handleCardInputFocus}
+            placeholder="Enter card number"
+            errors={errors}
+          />
+          <FormInput<Card>
+            id="form-card-holder-input"
+            label="Card Holder Name"
+            className="card-holder-input"
+            register={register}
+            rules={rules}
+            {...register("cardHolder")}
+            type="text"
+            onBlur={handleCardInputBlur}
+            onFocus={handleCardInputFocus}
+            placeholder="Enter card holder name"
+            errors={errors}
+          />
           <div className="form-input">
             <div className="form-input-group">
               <div className="form-input-date-month">
-                <label
-                  htmlFor="cardMonthLabel"
-                  className="form-month-input-label label"
-                >
-                  Expiration
-                </label>
-                <select
-                  id="card-month"
-                  data-testid="form-card-month-select"
+                <FormSelect
+                  label="Expiration"
+                  id="card-expiration-month"
                   aria-label="Card Month"
-                  className="card-mounth-select select"
+                  className="card-month-select"
                   aria-describedby="card-month-error"
-                  {...register("cardMonth", {
-                    onChange: handleChange,
-                  })}
+                  {...register("cardMonth")}
+                  rules={rules}
                   onBlur={handleCardInputBlur}
                   onFocus={handleCardInputFocus}
-                >
-                  <option value="">Select month</option>
-                  {months.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-                {errors.cardMonth && (
-                  <FormFeedback
-                    message={errors.cardMonth.message}
-                    id="card-month-error"
-                    type="warning"
-                  />
-                )}
+                  options={months}
+                  errors={errors}
+                />
               </div>
               <div className="form-input-date-year">
-                <label
-                  htmlFor="cardYearLabel"
-                  className="form-year-input-label label"
-                >
-                  &nbsp;
-                </label>
-                <select
-                  id="card-year"
-                  data-testid="form-card-year-select"
+                <FormSelect
+                  label="&nbsp;"
+                  id="card-expiration-year"
                   aria-label="Card Year"
-                  className="card-year-select select"
+                  className="card-year-select"
                   aria-describedby="card-year-error"
-                  {...register("cardYear", {
-                    onChange: handleChange,
-                  })}
+                  rules={rules}
+                  {...register("cardYear")}
                   onBlur={handleCardInputBlur}
                   onFocus={handleCardInputFocus}
-                >
-                  <option value="">Select year</option>
-                  {years.map((value) => (
-                    <option key={value} value={value}>
-                      {value}
-                    </option>
-                  ))}
-                </select>
-                {errors.cardYear && (
-                  <FormFeedback
-                    message={errors.cardYear.message}
-                    id="card-year-error"
-                    type="warning"
-                  />
-                )}
+                  options={years}
+                  errors={errors}
+                />
               </div>
               <div className="form-input-cvv">
-                <label htmlFor="cardCvv" className="form-cvv-label label">
-                  CVV
-                </label>
-                <input
-                  className="form-cvv-input input"
-                  {...register("cardCvv", {
-                    onChange: handleChange,
-                  })}
+                <FormInput<Card>
+                  id="form-cvv-input"
+                  label="CVV"
+                  className="cvv-input"
+                  register={register}
+                  rules={rules}
+                  {...register("cardCvv")}
                   type="text"
-                  data-testid="form-cvv-input"
                   onBlur={handleCardInputBlur}
                   onFocus={handleCardInputFocus}
-                  maxLength={4}
                   placeholder="Enter CVV"
-                  aria-describedby="card-cvv-error"
+                  errors={errors}
                 />
-                {errors.cardCvv && (
-                  <FormFeedback
-                    message={errors.cardCvv.message}
-                    id="card-cvv-error"
-                    type="warning"
-                  />
-                )}
               </div>
             </div>
           </div>
           <div className="form-submit-button">
-            <button disabled={isSubmitting} type="submit" data-testid="form-submit-button">
-              {isSubmitting ? (
+            <button
+              disabled={isSubmitting}
+              type="submit"
+              data-testid="form-submit-button"
+            >
+              {isSubmitting || isLoading ? (
                 <Loader size={30} backdrop={undefined} message="" />
               ) : (
                 "Submit"

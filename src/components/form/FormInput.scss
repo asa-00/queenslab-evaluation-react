@@ -1,0 +1,21 @@
+.label {
+  font-size: 15px;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #606b76;
+  display: block;
+  user-select: none;
+  float: left;
+}
+.input {
+  width: 100%;
+  height: 60px;
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1px solid #ced6e0;
+  transition: all 0.3s ease-in-out;
+  font-size: 20px;
+  padding: 5px 15px;
+  background: none;
+  color: #1a3b5d;
+}

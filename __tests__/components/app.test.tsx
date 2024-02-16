@@ -32,11 +32,11 @@ const setup = () => {
   const cardNumberInput =
     screen.getByTestId<HTMLInputElement>("card-number-input");
   const cardNumber = screen.getByTestId("credit-card-number");
-  const cardHolderInput = screen.getByTestId<HTMLInputElement>("form-card-holder-input");
+  const cardHolderInput = screen.getByTestId<HTMLInputElement>("card-holder-input");
   const cardHolder = screen.getByTestId<HTMLInputElement>("card-holder");
-  const cvvInput = screen.getByTestId<HTMLInputElement>("form-cvv-input");
-  const monthSelect = screen.getByTestId('form-card-month-select') as HTMLSelectElement;
-  const yearSelect = screen.getByTestId('form-card-year-select') as HTMLSelectElement;
+  const cvvInput = screen.getByTestId<HTMLInputElement>("card-cvv-input");
+  const monthSelect = screen.getByTestId('card-month-select') as HTMLSelectElement;
+  const yearSelect = screen.getByTestId('card-year-select') as HTMLSelectElement;
   const formSubmitButton = screen.getByTestId<HTMLInputElement>("form-submit-button");
 
   return {
