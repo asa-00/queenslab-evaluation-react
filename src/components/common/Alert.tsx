@@ -11,14 +11,14 @@ interface AlertProps {
 const Alert: FC<AlertProps> = ({ backdrop, message }) => {
   const [isOpen, setIsOpen] = useState<boolean | undefined>(false);
 
-  const handleClose = () => {
+  const handleClose = (): void => {
       setIsOpen(false);
       publish('close-alert');
   }
   
   const alert = (customStyle: CSSProperties | undefined): ReactElement => (
     <div className="alert-container" style={customStyle}>
-      <div onClick={handleClose} className="close-button" style={{ color: "#fff" }}>close</div>
+      <button onClick={handleClose} className="close-button">close</button>
       <div className="alert-icon">
         &#10539;
       </div>
@@ -33,7 +33,7 @@ const Alert: FC<AlertProps> = ({ backdrop, message }) => {
 
   if (message && isOpen) {
     if (backdrop) {
-      return <div className="alert-backdrop">{alert({ top: "60px", display: 'block' })}</div>;
+      return <div className={`alert-backdrop ${message === undefined ? 'success' : 'error' }`}>{alert({ top: "60px", display: 'block' })}</div>;
     }
 
     return alert({});

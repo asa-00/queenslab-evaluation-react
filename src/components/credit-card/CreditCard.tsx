@@ -6,7 +6,6 @@ import {
 } from "../../utils/utils";
 import "./CreditCard.scss";
 import chip from "../../assets/chip.png";
-/* import { subscribe, unsubscribe } from "../../utils/events"; */
 import Loader from "../common/Loader";
 import { Card } from "../../store/redux/features/cardSlice";
 import Alert from "../common/Alert";

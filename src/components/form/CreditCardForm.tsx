@@ -23,9 +23,9 @@ interface CardElementsRef {
 }
 
 type FormProps = {
-  isApiError: boolean,
-  isLoading: boolean
-}
+  isApiError: boolean;
+  isLoading: boolean;
+};
 
 const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
   const dispatch = useAppDispatch();
@@ -105,11 +105,11 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
     try {
       // To simulate async api call to server
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(isApiError)
-      if(isApiError) {
+
+      if (isApiError) {
         throw new Error("Api Error");
       }
-      
+
       if (data) {
         // Send the data to the server, reset the global state and form
         dispatch(addCard(initialState));
@@ -134,16 +134,11 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
   useEffect(() => {
     removeCreditCardNumberAnimation();
     subscribe("close-alert", () => setError("root", {}));
-    console.log(isApiError, isLoading)
+
     return () => {
       unsubscribe("close-alert", () => setError("root", {}));
     };
   }, [card, setFocus, errors, isSubmitting, setError, isApiError, isLoading]);
-
-  const rules = {
-    onChange: handleChange,
-    required: true,
-  };
 
   return (
     <div className="credit-card-container">
@@ -170,8 +165,7 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
             label="Card Number"
             className="card-number-input"
             register={register}
-            rules={rules}
-            {...register("cardNumber")}
+            {...register("cardNumber", { onChange: handleChange })}
             type="text"
             onBlur={handleCardInputBlur}
             onFocus={handleCardInputFocus}
@@ -183,8 +177,7 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
             label="Card Holder Name"
             className="card-holder-input"
             register={register}
-            rules={rules}
-            {...register("cardHolder")}
+            {...register("cardHolder", { onChange: handleChange })}
             type="text"
             onBlur={handleCardInputBlur}
             onFocus={handleCardInputFocus}
@@ -200,8 +193,7 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
                   aria-label="Card Month"
                   className="card-month-select"
                   aria-describedby="card-month-error"
-                  {...register("cardMonth")}
-                  rules={rules}
+                  {...register("cardMonth", { onChange: handleChange })}
                   onBlur={handleCardInputBlur}
                   onFocus={handleCardInputFocus}
                   options={months}
@@ -215,8 +207,7 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
                   aria-label="Card Year"
                   className="card-year-select"
                   aria-describedby="card-year-error"
-                  rules={rules}
-                  {...register("cardYear")}
+                  {...register("cardYear", { onChange: handleChange })}
                   onBlur={handleCardInputBlur}
                   onFocus={handleCardInputFocus}
                   options={years}
@@ -229,8 +220,7 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
                   label="CVV"
                   className="cvv-input"
                   register={register}
-                  rules={rules}
-                  {...register("cardCvv")}
+                  {...register("cardCvv", { onChange: handleChange })}
                   type="text"
                   onBlur={handleCardInputBlur}
                   onFocus={handleCardInputFocus}

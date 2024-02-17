@@ -22,7 +22,7 @@
   padding: 0 16px 0 16px;
 }
 .close-button {
-  color: rgb(25 65 116);
+  color: #fff;
   font-size: 12px;
   position: relative;
   top: -25px;
@@ -30,6 +30,8 @@
   float: right;
   cursor: pointer;
   text-transform: uppercase;
+  background-color: transparent;
+    border: none;
 }
 .close-button:hover {
   filter: drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
@@ -38,11 +40,17 @@
   position: absolute;
   top: 0px;
   left: 0;
-  background: rgb(243, 201, 201, 0.96);
   height: 100%;
   width: 100%;
   border-radius: 10px;
   z-index: 10;
+}
+.success {
+  background: rgb(45 117 18 / 96%);
+  border: 1px solid #d0d2d0;
+}
+.error {
+  background: rgb(243, 201, 201, 0.96);
   border: 1px solid red;
 }
 @keyframes rotation {

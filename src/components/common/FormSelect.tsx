@@ -5,7 +5,7 @@ import {
     DeepMap,
     FieldError,
     UseFormRegister,
-    RegisterOptions
+    Path
   } from "react-hook-form";
 
 import { ErrorMessage } from "@hookform/error-message";
@@ -14,12 +14,11 @@ import { Card } from "../../store/redux/features/cardSlice";
 
 type SelectProps<Card extends Record<never, never>> = {
   id: string;
-  name: string;
+  name: Path<Card>;
   label: string;
   options: string[];
   className?: string;
   register?: UseFormRegister<Card>;
-  rules?: RegisterOptions;
   onBlur: () => void;
   onFocus: (event: React.FocusEvent<HTMLInputElement>) => void;
   errors?: Partial<DeepMap<Card, FieldError>>;
@@ -32,7 +31,6 @@ const Select: FC<SelectProps<Card>> = forwardRef<HTMLSelectElement, SelectProps<
   className = "",
   options,
   register, 
-  rules,
   errors,
   onFocus,
   onBlur,
@@ -54,7 +52,7 @@ const Select: FC<SelectProps<Card>> = forwardRef<HTMLSelectElement, SelectProps<
         aria-invalid={hasError}
         onBlur={onBlur}
         onFocus={onFocus as never}
-        {...(register?.(name as never, rules))}
+        {...register}
         {...props}
       >
         <option value="">Select {_.startCase(name).split(" ")[1]}</option>

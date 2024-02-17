@@ -5,7 +5,6 @@ import {
   DeepMap,
   FieldError,
   UseFormRegister,
-  RegisterOptions,
   Path,
   FieldValues,
 } from "react-hook-form";
@@ -23,7 +22,6 @@ type FormInputProps<Card extends FieldValues> = {
   className?: string;
   type?: InputType;
   register?: UseFormRegister<Card>;
-  rules?: RegisterOptions;
   onBlur: () => void;
   onFocus: (event: React.FocusEvent<HTMLInputElement>) => void;
   errors?: Partial<DeepMap<Card, FieldError>>;
@@ -35,7 +33,6 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps<Card>>(({
   label,
   placeholder,
   register,
-  rules,
   type = "text",
   errors,
   className,
@@ -59,7 +56,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps<Card>>(({
         aria-label={label}
         placeholder={placeholder}
         className={`input ${className}`}
-        {...register?.(name, rules)}
+        {...register}
         {...props}
       />
       <ErrorMessage
