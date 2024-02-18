@@ -9,7 +9,7 @@ import chip from "../../assets/chip.png";
 import Loader from "../common/Loader";
 import { Card } from "../../store/redux/features/cardSlice";
 import Alert from "../common/Alert";
-
+import { Message } from "../form/CreditCardForm";
 interface CreditCardProps {
   cardNumberRef: React.RefObject<HTMLDivElement>;
   cardHolderRef: React.RefObject<HTMLDivElement>;
@@ -20,7 +20,8 @@ interface CreditCardProps {
   focusedElm: React.RefObject<HTMLElement> | null;
   isFlipped: boolean;
   isSubmitting: boolean;
-  error: string | undefined
+  error: Message
+  success: Message;
 }
 
 const CreditCard: React.FC<CreditCardProps> = ({
@@ -32,6 +33,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
   focusedElm,
   isFlipped,
   isSubmitting,
+  success,
   error,
 }) => {
   const card: Card = useAppSelector((state) => state.card);
@@ -111,7 +113,8 @@ const CreditCard: React.FC<CreditCardProps> = ({
             <div className={"credit-card-number-label"}>
               {displayCardNumber(cardNumber)}
             </div>
-            <Alert size={30} message={error} backdrop />
+            <Alert message={error} backdrop />
+            <Alert message={success} backdrop />
             {isSubmitting ? (
               <Loader
                 size={40}

@@ -14,6 +14,8 @@ Write a function that finds and removes instances of four identical consecutive 
 
 Assume that the maximum length of the string is 150 000 however please elaborate on changes you would do if the maximum length would be 20 million or higher?
 
+If the max length of the string would be 20 million or higher,  would investigate some type of streaming process where I can break up the string into different chunks instead of reading the entire string into memory. I would start by creating a chunk of appropriate size by splitting the input. Then loop over chunk by chunk to achieve the same result.
+
 Examples:
 ```
 "ffdttttyy" should return "ffdtttyy"

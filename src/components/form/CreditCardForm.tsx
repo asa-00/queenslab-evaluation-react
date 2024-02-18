@@ -18,6 +18,10 @@ import { subscribe, unsubscribe } from "../../utils/events";
 import { FormInput } from "../common/FormInput";
 import FormSelect from "../common/FormSelect";
 
+export interface Message {
+  type: string;
+  message: string;
+}
 interface CardElementsRef {
   [key: string]: React.RefObject<HTMLDivElement>;
 }
@@ -52,6 +56,7 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
   const [focusedElement, setFocusedElement] =
     useState<React.RefObject<HTMLElement> | null>(null);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
+  const [success, setSuccess] = useState<Message>();
 
   const cardElementsRef: CardElementsRef = {
     cardNumber: useRef<HTMLDivElement>(null),
@@ -112,12 +117,14 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
 
       if (data) {
         // Send the data to the server, reset the global state and form
+        setSuccess({ message: 'Success', type: "success" });
         dispatch(addCard(initialState));
         reset();
       }
     } catch (error: unknown) {
       setError("root", {
         message: `There was an error precessing your request. Try again [${error}]`,
+        type: "error"
       });
     }
   };
@@ -131,14 +138,19 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
     }
   };
 
+  const handleAlertClose = useCallback(() => {
+    setError("root", {});
+    setSuccess(undefined);
+  }, [setError]);
+  
   useEffect(() => {
     removeCreditCardNumberAnimation();
-    subscribe("close-alert", () => setError("root", {}));
+    subscribe("close-alert", handleAlertClose);
 
     return () => {
-      unsubscribe("close-alert", () => setError("root", {}));
+      unsubscribe("close-alert", handleAlertClose);
     };
-  }, [card, setFocus, errors, isSubmitting, setError, isApiError, isLoading]);
+  }, [card, setFocus, errors, isSubmitting, setError, isApiError, isLoading, handleAlertClose]);
 
   return (
     <div className="credit-card-container">
@@ -152,7 +164,8 @@ const CreditCardForm: React.FC<FormProps> = ({ isApiError, isLoading }) => {
         cardYearRef={cardElementsRef.cardYear}
         cardDate={cardElementsRef.cardDate}
         cardCvvRef={cardElementsRef.cardCvv}
-        error={errors?.root?.message}
+        error={errors?.root as Message}
+        success={success as Message}
       />
       <div className="form-container" data-testid="form-container">
         <form
