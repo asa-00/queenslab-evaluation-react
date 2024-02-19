@@ -50,7 +50,6 @@ const Alert: FC<AlertProps> = ({ backdrop, message }) => {
 
 
   useEffect(() => {
-    console.log(message)
     setIsOpen(!!message);
   }, [message, isOpen]);
 

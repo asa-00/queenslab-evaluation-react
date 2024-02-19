@@ -11,14 +11,17 @@ function App() {
   const [displayState, setDisplayState] = useState(false);
   const card: Card = useAppSelector((state) => state.card);
 
+  // Function to toggle api error on form submit for debug perpose
   const toggleToSimulateApiError = () => {
     setIsApiError(!isApiError);
   };
 
+   // Function to toggle loding on form for debug perpose
   const toggleToSimulateLoading = () => {
     setIsLoading(!isLoading);
   };
 
+   // Function to toggle and diplay content of redux state for credit card for debug perpose
   const toggleDisplayState = () => {
     setDisplayState(!displayState);
   };
@@ -26,6 +29,8 @@ function App() {
   return (
     <div className="App" data-testid="app">
       <main className="main">
+        {/* isApiError and isLoading passed to CreditCardForm for debug menu useage. 
+        This props can be remove when application is ready fro production */}
         <CreditCardForm isApiError={isApiError} isLoading={isLoading} />
         <DebugMenu
           toggleToSimulateApiError={toggleToSimulateApiError}
